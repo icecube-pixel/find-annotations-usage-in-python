@@ -1,0 +1,18 @@
+{
+    "types" : [
+        "AnyStr",
+        "cast",
+        "final",
+        "get_args",
+        "get_origin",
+        "get_type_hints",
+        "NewType",
+        "no_type_check",
+        "no_type_check_decorator",
+        "NoReturn",
+        "overload",
+        "runtime_checkable",
+        "Text",
+        "TYPE_CHECKING"
+    ]
+}

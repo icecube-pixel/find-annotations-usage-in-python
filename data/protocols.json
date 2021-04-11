@@ -1,0 +1,12 @@
+{
+    "types" : [
+        "Reversible",
+        "SupportsAbs",
+        "SupportsBytes",
+        "SupportsComplex",
+        "SupportsFloat",
+        "SupportsIndex",
+        "SupportsInt",
+        "SupportsRound"
+    ]
+}

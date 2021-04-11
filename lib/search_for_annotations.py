@@ -2,10 +2,11 @@ from typing import List, Dict
 from bs4 import BeautifulSoup
 import requests
 import logging
-import re
+import re, os
+import subprocess
 
 logger = logging.getLogger(__name__)
-
+temp_dir = "/tmp"
 
 def get_typing_module_occurances_github(url: str)->int:
     """ Gets the occurance value from github instead of api.github """
@@ -25,10 +26,30 @@ def check_if_typing_module_used(repo_links: List[str])->Dict:
     logger.info("Getting if typing module is used")
     url_list = ["{repo_name}/search?q=typing".format(repo_name=link) for link in repo_links]
     occurances = {}
-    for url in url_list:
+    for index, url in enumerate(url_list):
+        if index > 5:
+            break
         logger.info("Processing url {0}".format(url))
         count = get_typing_module_occurances_github(url)
         org_url = url.replace('/search?q=typing', '')
         occurances[org_url] = count
     logger.info(occurances)
     return occurances
+
+
+def download_repo(repo_link: str)->str:
+    """ Downloads the repo to the disk """
+    logger.info("Downloading repo {repo}".format(repo=repo_link))
+    folder_name = repo_link.split("/")[-1]
+    temp_dir_path = os.path.join(temp_dir, folder_name)
+    bash_cmd = "git clone {repo} {temp_dir}".format(repo=repo_link, temp_dir=temp_dir_path)
+    downloaded_repo = subprocess.Popen(bash_cmd, stdout=subprocess.PIPE, shell=True)
+    downloaded_repo.communicate()
+    return temp_dir_path
+
+
+def grep_for_patterns(repo_path:str):
+    """
+    Greps for patterns
+    """
+    return

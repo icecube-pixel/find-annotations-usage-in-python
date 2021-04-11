@@ -1,0 +1,16 @@
+{
+    "types" : [
+        "ChainMap",
+        "Counter",
+        "Deque",
+        "Dict",
+        "DefaultDict",
+        "List",
+        "OrderedDict",
+        "Set",
+        "FrozenSet",
+        "NamedTuple", 
+        "TypedDict",  
+        "Generator"
+    ]
+}

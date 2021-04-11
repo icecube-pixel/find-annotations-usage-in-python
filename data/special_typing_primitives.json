@@ -1,0 +1,15 @@
+{
+"types" : [ "Any",
+    "Callable",
+    "ClassVar",
+    "Final",
+    "ForwardRef",
+    "Generic",
+    "Literal",
+    "Optional",
+    "Protocol",
+    "Tuple",
+    "Type",
+    "TypeVar",
+    "Union"]
+}
