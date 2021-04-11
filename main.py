@@ -23,6 +23,8 @@ def read_key_words_from_files()->List[str]:
     file_names = os.listdir('data/')
     key_words_to_search = []
     for file_name in file_names:
+        if '.json' not in file_name:
+            continue
         logger.info("Processing file : {file}".format(file=file_name))
         f = open(os.path.join('data', file_name))
         data = json.load(f)
@@ -41,17 +43,24 @@ def main():
     master_data = []
     for repo_url in repos_to_download:
         temp_dir_path = download_repo(repo_url)
-        resultant_dict = {}
-        for key in keys_to_search:
-            bash_cmd = 'grep -are {key} {temp_path} | grep -E "\->\s{key}|\[{key}|:\s{key}" | grep ".py" | wc -l'.format(key=key, temp_path=temp_dir_path)
-            bash_process = subprocess.Popen(bash_cmd, stdout=subprocess.PIPE, shell=True)
-            lines_to_iterate = bash_process.stdout.readlines()
-            value = lines_to_iterate[0].decode("utf-8").replace('\n', '')
-            resultant_dict[key] = value.__int__()
-        resultant_dict['repo_url'] = repo_url
-        master_data.append(resultant_dict)
-        shutil.rmtree(temp_dir_path)
-        
+        try:
+            resultant_dict = {}
+            for key in keys_to_search:
+                bash_cmd = 'grep -are {key} {temp_path} | grep -E "\->\s{key}|\[{key}|:\s{key}" | grep ".py" | wc -l'.format(key=key, temp_path=temp_dir_path)
+                bash_process = subprocess.Popen(bash_cmd, stdout=subprocess.PIPE, shell=True)
+                lines_to_iterate = bash_process.stdout.readlines()
+                value = lines_to_iterate[0].decode("utf-8").replace('\n', '')
+                resultant_dict[key] = value
+            resultant_dict['repo_url'] = repo_url
+            master_data.append(resultant_dict)
+        except Exception as e:
+            logger.error(e)
+        finally:
+            shutil.rmtree(temp_dir_path)
+
+    df = pd.DataFrame(master_data)    
+    df.to_csv('data/Pattern_count_across_repos.csv', index=False)
+
 
 if __name__ == "__main__":
     main()
