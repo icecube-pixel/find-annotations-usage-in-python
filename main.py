@@ -10,6 +10,7 @@ import re, os
 from typing import List
 import pandas as pd
 import shutil
+import numpy as np
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -57,8 +58,14 @@ def main():
             logger.error(e)
         finally:
             shutil.rmtree(temp_dir_path)
-
-    df = pd.DataFrame(master_data)    
+    df_with_data = pd.DataFrame(master_data)    
+    fill_repos = list(set(instances_found_per_repo.keys()) - set(repos_to_download))
+    rows, cols = len(fill_repos) , len(df_with_data.columns.tolist()) - 1
+    col_names = df_with_data.columns.tolist()
+    col_names.remove('repo_url')
+    df_zeros = pd.DataFrame(np.zeros((rows, cols)), columns=col_names)
+    df_zeros['repo_url'] = fill_repos
+    df = pd.concat([df_with_data, df_zeros])
     df.to_csv('data/Pattern_count_across_repos.csv', index=False)
 
 

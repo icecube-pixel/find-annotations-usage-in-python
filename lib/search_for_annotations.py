@@ -45,9 +45,3 @@ def download_repo(repo_link: str)->str:
     downloaded_repo.communicate()
     return temp_dir_path
 
-
-def grep_for_patterns(repo_path:str):
-    """
-    Greps for patterns
-    """
-    return
