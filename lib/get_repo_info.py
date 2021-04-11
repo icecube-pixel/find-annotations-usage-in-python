@@ -2,7 +2,7 @@ import logging
 import requests
 from constants import _github_base_url, _language, _query_str
 import json
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 import sys
 
 logger = logging.getLogger(__name__)

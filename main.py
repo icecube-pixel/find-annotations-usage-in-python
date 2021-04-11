@@ -1,5 +1,6 @@
 import logging
 from lib.get_repo_info import get_top_repositories
+from lib.search_for_annotations import check_if_typing_module_used
 import sys
 import typing
 
@@ -12,8 +13,9 @@ logger.addHandler(stdout_handler)
 
 def main():
     logger.info('Inside Main')
-    repos = get_top_repositories()
-    logger.info(repos)
+    repos,status_code = get_top_repositories()
+    logger.info(type(repos))
+    check_if_typing_module_used(repos)
     static_typing_types = dir(typing)
 
 
