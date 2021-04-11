@@ -17,6 +17,7 @@ def get_top_repositories()->Tuple[List[str],int]:
     """
     logger.info("Inside get top repositories function")    
     url = _github_base_url + requests.utils.quote(_query_str)
+    logger.info(url)
     response = requests.get(url, headers=headers)
     status_code = response.status_code
     if status_code == 200:
@@ -29,3 +30,5 @@ def get_top_repositories()->Tuple[List[str],int]:
             return ['None'], status_code            
     else:
         return ['None'], status_code
+
+

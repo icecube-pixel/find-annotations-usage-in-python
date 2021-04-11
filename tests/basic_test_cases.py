@@ -5,7 +5,7 @@ _user = getpass.getuser()
 repo_absolute_path = "/home/{user}/find-annotations-usage-in-python".format(user=_user)
 sys.path.append(repo_absolute_path)
 
-from lib.github_utils import get_top_repositories
+from lib.get_repo_info import get_top_repositories
 
 class TestSum(unittest.TestCase):
 
