@@ -7,10 +7,11 @@ import typing
 import json
 import subprocess
 import re, os
-from typing import List
+from typing import List, Dict
 import pandas as pd
 import shutil
 import numpy as np
+import argparse
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -33,9 +34,19 @@ def read_key_words_from_files()->List[str]:
     return key_words_to_search
 
 
+def get_inputs()->Dict:
+    """Gets the username and password from the console """
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--username", dest="username", help="Enter the username", required=True)
+    parser.add_argument("--password", dest="password", help="Enter the password", required=True)
+    args = vars(parser.parse_args())
+    return args
+
+
 def main():
     logger.info('Inside Main')
-    repos,status_code = get_top_repositories()
+    args = get_inputs()
+    repos,status_code = get_top_repositories(args)
     instances_found_per_repo = check_if_typing_module_used(repos)
     repos_to_download = [ key for key, value in instances_found_per_repo.items() if int(value) > 0]
     logger.info(repos_to_download)
@@ -72,3 +83,5 @@ def main():
 if __name__ == "__main__":
     main()
 
+# curl -G https://api.github.com/search/repositories?q=python%20language%3Apython%26sort%3Dstars%26order%3Ddesc -H "application/vnd.github.v3+json" | jq ".items[] | {name, description, language, watchers_count, html_url} | length" | wc -l 
+# TODO Need to use per_page and page. Refer to https://docs.github.com/en/rest/reference/search#search-repositories
