@@ -17,6 +17,7 @@ def get_typing_module_occurances_github(url: str)->int:
     for search_result in soup.find_all("h3"):
         if len(re.findall("code results", search_result.__str__())) > 0:
             split_results = search_result.__str__().split('code results')[0].split(" ")
+            logger.info(split_results)
             for value in split_results:
                 if value.isdigit():
                     return value
@@ -27,12 +28,15 @@ def check_if_typing_module_used(repo_links: List[str])->Dict:
     """Checks if typing module is present using github search"""
     logger.info("Getting if typing module is used")
     url_list = ["{repo_name}/search?q=typing".format(repo_name=link) for link in repo_links]
+    logger.info(len(set(url_list)));exit()
     occurances = {}
-    for url in url_list:
+    for url in set(url_list):
         logger.info("Processing url {0}".format(url))
         count = get_typing_module_occurances_github(url)
+        logger.info(count)
         org_url = url.replace('/search?q=typing', '')
         occurances[org_url] = count
+        logger.info(len(occurances))
         sleep(sleep_counter)
     logger.info(occurances)
     return occurances
