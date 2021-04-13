@@ -28,17 +28,14 @@ def check_if_typing_module_used(repo_links: List[str])->Dict:
     """Checks if typing module is present using github search"""
     logger.info("Getting if typing module is used")
     url_list = ["{repo_name}/search?q=typing".format(repo_name=link) for link in repo_links]
-    logger.info(len(set(url_list)));exit()
+    logger.info(len(set(url_list)))
     occurances = {}
     for url in set(url_list):
         logger.info("Processing url {0}".format(url))
         count = get_typing_module_occurances_github(url)
-        logger.info(count)
         org_url = url.replace('/search?q=typing', '')
         occurances[org_url] = count
-        logger.info(len(occurances))
         sleep(sleep_counter)
-    logger.info(occurances)
     return occurances
 
 
