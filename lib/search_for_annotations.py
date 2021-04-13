@@ -4,6 +4,8 @@ import requests
 import logging
 import re, os
 import subprocess
+from time import sleep
+from constants import sleep_counter
 
 logger = logging.getLogger(__name__)
 temp_dir = "/tmp"
@@ -31,6 +33,7 @@ def check_if_typing_module_used(repo_links: List[str])->Dict:
         count = get_typing_module_occurances_github(url)
         org_url = url.replace('/search?q=typing', '')
         occurances[org_url] = count
+        sleep(sleep_counter)
     logger.info(occurances)
     return occurances
 
