@@ -37,8 +37,9 @@ def read_key_words_from_files()->List[str]:
 def get_inputs()->Dict:
     """Gets the username and password from the console """
     parser = argparse.ArgumentParser()
-    parser.add_argument("--username", dest="username", help="Enter the username", required=True)
-    parser.add_argument("--password", dest="password", help="Enter the password", required=True)
+    # parser.add_argument("--username", dest="username", help="Enter the username", required=True)
+    # parser.add_argument("--password", dest="password", help="Enter the password", required=True)
+    parser.add_argument("--token", dest="token", help="Enter the oAuth token", required=True) 
     args = vars(parser.parse_args())
     return args
 

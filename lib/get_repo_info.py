@@ -25,7 +25,7 @@ def get_top_repositories(args: Dict)->Tuple[List[str],int]:
     else:
         github_repo_data = []
         try:
-            g_obj = Github(args['username'], args['password'])
+            g_obj = Github(args['token'])
             result = g_obj.search_repositories(_query_str, 'stars', 'desc')
             for repo in result:
                 github_repo_data.append(str(repo.clone_url).replace('.git', ''))
